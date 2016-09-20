@@ -4,16 +4,16 @@ ETCD_DATA_DIR="{{etcd_cluster_data_dir}}"
 #ETCD_SNAPSHOT_COUNTER="10000"
 #ETCD_HEARTBEAT_INTERVAL="100"
 #ETCD_ELECTION_TIMEOUT="1000"
-ETCD_LISTEN_CLIENT_URLS="{{etcd_scheme}}://localhost:2379,{{etcd_scheme}}://{{etcd_public_ip}}:2379"
+ETCD_LISTEN_CLIENT_URLS="{{etcd_scheme}}://{{inventory_hostname}}:2379,{{etcd_scheme}}://{{etcd_public_ip}}:2379"
 #ETCD_MAX_SNAPSHOTS="5"
 #ETCD_MAX_WALS="5"
 #ETCD_CORS=""
 #
 # [cluster]
 {% if inventory_hostname in groups[etcd_master_group_name] %}
-ETCD_LISTEN_PEER_URLS="{{etcd_scheme}}://{{etcd_public_ip}}:2380"
-ETCD_ADVERTISE_CLIENT_URLS="{{etcd_scheme}}://{{etcd_public_ip}}:2379"
-ETCD_INITIAL_ADVERTISE_PEER_URLS="{{etcd_scheme}}://{{etcd_public_ip}}:2380"
+ETCD_LISTEN_PEER_URLS="{{etcd_scheme}}://{{inventory_hostname}}:2380,{{etcd_scheme}}://{{etcd_public_ip}}:2380"
+ETCD_ADVERTISE_CLIENT_URLS="{{etcd_scheme}}://{{inventory_hostname}}:2379,{{etcd_scheme}}://{{etcd_public_ip}}:2379"
+ETCD_INITIAL_ADVERTISE_PEER_URLS="{{etcd_scheme}}://{{inventory_hostname}}:2380,{{etcd_scheme}}://{{etcd_public_ip}}:2380"
 {% endif %}
 ETCD_INITIAL_CLUSTER="{{etcd_cluster}}"
 ETCD_INITIAL_CLUSTER_STATE="new"
