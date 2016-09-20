@@ -1,0 +1,17 @@
+---
+    
+- name: install etcd.service systemd unit
+  become: yes
+  become_user: root
+  template: >-
+    src={{item}}.j2
+    dest=/{{item}}
+    mode=0644
+  with_items:
+    - usr/lib/systemd/system/etcd.service
+
+- name: start etcd
+  when: etcd_launch
+  become: yes
+  become_user: root
+  service: name=etcd enabled=yes state=started
