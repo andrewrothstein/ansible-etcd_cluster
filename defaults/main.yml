@@ -5,7 +5,10 @@ etcd_data_dir: /var/lib/etcd
 
 etcd_master_group_name: etcd-master
 
-etcd_secure: False
+etcd_secure: True
+etcd_pki_dir: "~/pki-dir"
+etcd_pki_key_suffix: '-key.pem'
+etcd_pki_cert_suffix: '.pem'
 
 etcd_network_iface : eth0
 etcd_cluster_name : test-cluster-name

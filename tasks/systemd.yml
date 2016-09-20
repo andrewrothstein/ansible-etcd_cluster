@@ -3,6 +3,7 @@
 - name: install etcd.service systemd unit
   become: yes
   become_user: root
+  register: etcd_service_modified
   template: >-
     src={{item}}.j2
     dest=/{{item}}
@@ -10,6 +11,12 @@
   with_items:
     - usr/lib/systemd/system/etcd.service
 
+- name: systemctl daemon-reload
+  become: yes
+  become_user: root
+  when: etcd_service_modified|changed
+  command: systemctl daemon-reload
+    
 - name: start etcd
   when: etcd_launch
   become: yes

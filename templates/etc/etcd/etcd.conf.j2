@@ -30,14 +30,16 @@ ETCD_PROXY="on"
 {% endif %}
 #
 #[security]
-#ETCD_CERT_FILE=""
-#ETCD_KEY_FILE=""
-#ETCD_CLIENT_CERT_AUTH="false"
-#ETCD_TRUSTED_CA_FILE=""
-#ETCD_PEER_CERT_FILE=""
-#ETCD_PEER_KEY_FILE=""
-#ETCD_PEER_CLIENT_CERT_AUTH="false"
-#ETCD_PEER_TRUSTED_CA_FILE=""
+{% if etcd_secure %}
+ETCD_CERT_FILE="{{etcd_pki_cert_dest}}"
+ETCD_KEY_FILE="{{etcd_pki_key_dest}}"
+ETCD_CLIENT_CERT_AUTH="true"
+ETCD_TRUSTED_CA_FILE="{{etcd_pki_ca_cert_dest}}"
+ETCD_PEER_CERT_FILE="{{etcd_pki_cert_dest}}"
+ETCD_PEER_KEY_FILE="{{etcd_pki_key_dest}}"
+ETCD_PEER_CLIENT_CERT_AUTH="true"
+ETCD_PEER_TRUSTED_CA_FILE="{{etcd_pki_ca_cert_dest}}"
+{% endif %}
 #
 #[logging]
 #ETCD_DEBUG="true"
