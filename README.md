@@ -23,15 +23,20 @@ Example Playbook
 ----------------
 
 inventory.ini
+```ini
 [etcd]
 host[1:n].test
 
 [etcd-master]
 host[1:3].test
+```
 
-    - hosts: etcd
-      roles:
-         - andrewrothstein.etcd-cluster
+in your playbook:
+```yml
+- hosts: etcd
+  roles:
+    - andrewrothstein.etcd-cluster
+```
 
 License
 -------
