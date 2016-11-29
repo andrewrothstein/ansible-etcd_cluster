@@ -7,17 +7,17 @@ and a proxy on the rest of the hosts in the etcd group.
 Requirements
 ------------
 
-See [meta/main.yml]
+See [meta/main.yml](meta/main.yml)
 
 Role Variables
 --------------
 
-See [defaults/main.yml]
+See [defaults/main.yml](defaults/main.yml)
 
 Dependencies
 ------------
 
-See [meta/main.yml]
+See [meta/main.yml](meta/main.yml)
 
 Example Playbook
 ----------------
