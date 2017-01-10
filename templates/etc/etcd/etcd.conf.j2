@@ -11,9 +11,9 @@ ETCD_LISTEN_CLIENT_URLS="{{etcd_scheme}}://localhost:2379,{{etcd_scheme}}://{{et
 #
 # [cluster]
 {% if inventory_hostname in groups[etcd_master_group_name] %}
-ETCD_LISTEN_PEER_URLS="{{etcd_scheme}}://localhost:2380,{{etcd_scheme}}://{{etcd_public_ip}}:2380"
-ETCD_ADVERTISE_CLIENT_URLS="{{etcd_scheme}}://localhost:2379,{{etcd_scheme}}://{{etcd_public_ip}}:2379"
-ETCD_INITIAL_ADVERTISE_PEER_URLS="{{etcd_scheme}}://localhost:2380,{{etcd_scheme}}://{{etcd_public_ip}}:2380"
+ETCD_LISTEN_PEER_URLS="{{etcd_scheme}}://{{etcd_public_ip}}:2380"
+ETCD_ADVERTISE_CLIENT_URLS="{{etcd_scheme}}://{{etcd_public_ip}}:2379"
+ETCD_INITIAL_ADVERTISE_PEER_URLS="{{etcd_scheme}}://{{etcd_public_ip}}:2380"
 {% endif %}
 ETCD_INITIAL_CLUSTER="{{etcd_cluster}}"
 ETCD_INITIAL_CLUSTER_STATE="new"
