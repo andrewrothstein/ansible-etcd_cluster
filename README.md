@@ -1,8 +1,8 @@
 andrewrothstein.etcd-cluster
 ===========================
 
-Configures an etcd cluster. Runs a voting member on every host in the etcd-master group
-and a proxy on the rest of the hosts in the etcd group.
+Configures an etcd cluster. Runs a voting member on every host in the ```etcd-master``` group
+and a proxy on the rest of the hosts in the ```etcd``` group.
 
 Requirements
 ------------
@@ -24,9 +24,11 @@ Example Playbook
 
 inventory.ini
 ```ini
+# voting and non-voting members
 [etcd]
 host[1:n].test
 
+# voting members
 [etcd-master]
 host[1:3].test
 ```
@@ -46,4 +48,4 @@ MIT
 Author Information
 ------------------
 
-Andrew Rothstein andrew.rothstein@gmail.com
+Andrew Rothstein <andrew.rothstein@gmail.com>
