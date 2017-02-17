@@ -2,3 +2,5 @@
 - hosts: all
   roles:
     - role: '{{playbook_dir}}'
+      etcd_pki_dir: '{{playbook_dir}}'
+      etcd_launch: False

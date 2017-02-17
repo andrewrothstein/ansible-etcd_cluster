@@ -4,21 +4,24 @@
   become: yes
   become_user: root
   register: etcd_service_modified
-  template: >-
-    src={{item}}.j2
-    dest=/{{item}}
-    mode=0644
+  template:
+    src: '{{item}}.j2'
+    dest: /{{item}}
+    mode: 0644
   with_items:
     - usr/lib/systemd/system/etcd.service
 
 - name: systemctl daemon-reload
   become: yes
   become_user: root
-  when: etcd_service_modified|changed
+  when: etcd_launch and etcd_service_modified|changed
   command: systemctl daemon-reload
     
-- name: start etcd
+- name: launching etcd...
   when: etcd_launch
   become: yes
   become_user: root
-  service: name=etcd enabled=yes state=started
+  service:
+    name: etcd
+    enabled: yes
+    state: started

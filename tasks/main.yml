@@ -2,53 +2,43 @@
 - name: create etcd group
   become: yes
   become_user: root
-  group: name={{etcd_group}} state=present
+  group:
+    name: '{{etcd_group}}'
+    state: present
   
 - name: create etcd user
   become: yes
   become_user: root
-  user: >-
-    name={{etcd_user}}
-    group={{etcd_group}}
-    home={{etcd_data_dir}}
-    state=present
+  user:
+    name: '{{etcd_user}}'
+    group: '{{etcd_group}}'
+    home: '{{etcd_data_dir}}'
+    state: present
 
 - name: create dirs...
   become: yes
   become_user: root
-  file: >-
-    state=directory
-    path={{item}}
-    owner={{etcd_user}}
-    group={{etcd_group}}
-    mode=0755
+  file:
+    state: directory
+    path: '{{item}}'
+    owner: '{{etcd_user}}'
+    group: '{{etcd_group}}'
+    mode: 0755
   with_items:
     - /etc/etcd
     - '{{etcd_cluster_pki_dir}}'
     
-- name: install keys/certs
+- include: pki.yml
   when: etcd_secure
-  become: yes
-  become_user: root
-  with_items:
-    - { f: '{{etcd_pki_key_src}}', d: '{{etcd_pki_key_dest}}', m: '0400' }
-    - { f: '{{etcd_pki_cert_src}}', d: '{{etcd_pki_cert_dest}}', m: '0600'}
-    - { f: '{{etcd_pki_ca_cert_src}}', d: '{{etcd_pki_ca_cert_dest}}', m: '0600' }
-  copy: >-
-    src={{item.f}}
-    dest={{item.d}}
-    owner={{etcd_user}}
-    group={{etcd_group}}
-    mode={{item.m}}
-    
+
 - name: install etcd.service configuration
   become: yes
   become_user: '{{etcd_user}}'
-  template: >-
-    src={{item}}.j2
-    dest=/{{item}}
-    mode=0644
   with_items:
     - etc/etcd/etcd.conf
+  template:
+    src: '{{item}}.j2'
+    dest: /{{item}}
+    mode: 0644
 
 - include: '{{etcd_init_system}}.yml'
