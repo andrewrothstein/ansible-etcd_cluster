@@ -35,10 +35,11 @@
   become: yes
   become_user: root
   with_items:
-    - etc/etcd/etcd.conf
+    - f: etcd.conf
+      d: /etc/etcd
   template:
-    src: '{{item}}.j2'
-    dest: /{{item}}
+    src: '{{item.f}}.j2'
+    dest: '{{item.d}}/{{item.f}}'
     owner: '{{etcd_user}}'
     group: '{{etcd_group}}'
     mode: 0644
