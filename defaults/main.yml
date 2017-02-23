@@ -6,10 +6,11 @@ etcd_data_dir: /var/lib/etcd
 etcd_master_group_name: etcd-master
 
 etcd_secure: True
-etcd_pki_dir: "~/pki-dir"
-etcd_pki_key_suffix: '-key.pem'
-etcd_pki_cert_suffix: '.pem'
+etcd_pki_dir: ~/pki-dir
+etcd_pki_key_suffix: -key.pem
+etcd_pki_cert_suffix: .pem
 
+etcd_use_ips: True
 etcd_network_iface : eth0
 etcd_cluster_name : test-cluster-name
 etcd_initial_cluster_token: d8bf8cc6-5158-11e6-8f13-3b32f4935bde

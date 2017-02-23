@@ -33,12 +33,14 @@
 
 - name: install etcd.service configuration
   become: yes
-  become_user: '{{etcd_user}}'
+  become_user: root
   with_items:
     - etc/etcd/etcd.conf
   template:
     src: '{{item}}.j2'
     dest: /{{item}}
+    owner: '{{etcd_user}}'
+    group: '{{etcd_group}}'
     mode: 0644
 
 - include: '{{etcd_init_system}}.yml'
