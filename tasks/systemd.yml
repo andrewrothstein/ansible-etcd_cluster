@@ -9,7 +9,7 @@
       d: /etc/systemd/system
   template:
     src: '{{item.f}}.j2'
-    dest: '{{item.f}}/{{item.f}}'
+    dest: '{{item.d}}/{{item.f}}'
     mode: 0644
 
 - name: systemctl daemon-reload
