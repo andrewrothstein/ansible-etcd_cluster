@@ -17,6 +17,7 @@ test:
               - OS=centos_7
               - OS=fedora_23
               - OS=fedora_24
+              - OS=fedora_25
               - OS=ubuntu_trusty
               - OS=ubuntu_xenial
 
@@ -25,7 +26,6 @@ test:
               - export UPSTREAM=andrewrothstein/docker-ansible-role
 
             script:
-              - docker pull $UPSTREAM:$OS
               - echo "FROM $UPSTREAM:$OS" > Dockerfile.$OS
               - docker build -t $CIRCLE_PROJECT_REPONAME:$OS -f Dockerfile.$OS .
 
