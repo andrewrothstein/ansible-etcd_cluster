@@ -3,5 +3,5 @@
   roles:
     - role: '{{playbook_dir}}'
       etcd_use_ips: False
-      etcd_pki_dir: '{{playbook_dir}}'
+      etcd_pki_dir: '{{playbook_dir}}/test-pki'
       etcd_launch: False

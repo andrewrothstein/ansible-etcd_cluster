@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/andrewrothstein/ansible-etcd-cluster.svg?style=svg)](https://circleci.com/gh/andrewrothstein/ansible-etcd-cluster)
 andrewrothstein.etcd-cluster
 ===========================
 
