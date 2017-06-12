@@ -9,13 +9,18 @@ galaxy_info:
   platforms:
     - name: EL
       versions:
-        - all
+        - 7
     - name: Fedora
       versions:
-        - all
+        - 23
+        - 24
+        - 25
     - name: Ubuntu
       versions:
         - xenial
+    - name: Debian
+      versions:
+        - jessie
   galaxy_tags:
     - etcd
     - kv
@@ -23,4 +28,4 @@ galaxy_info:
 
 dependencies:
   - role: andrewrothstein.etcd
-    version: v2.0.8
+    version: v2.1.0

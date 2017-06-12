@@ -1,29 +1,39 @@
 ---
+sudo: required
+
+services:
+  - docker
+
 language: python
 python: "2.7"
 
-# Use the new container infrastructure
-sudo: false
-
-# Install ansible
 addons:
   apt:
     packages:
-    - python-pip
+      - python-pip
 
-install:
-  # Install ansible
-  - pip install ansible
+branches:
+  except:
+    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 
-  # Check ansible version
-  - ansible --version
-
-  # Create ansible.cfg with correct roles_path
-  - printf '[defaults]\nroles_path=../' >ansible.cfg
+env:
+  - OS=centos_7
+  - OS=fedora_23
+  - OS=fedora_24
+  - OS=fedora_25
+  - OS=debian_jessie
+  - OS=ubuntu_xenial
+    
+before_install:
+  - pip install ansible-galaxy-local-deps dcb==0.0.14
+  - ansible-galaxy-local-deps-write
 
 script:
-  # Basic role syntax check
-  - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
-
-notifications:
-  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+  - >-
+    dcb
+    --upstreamgroup andrewrothstein
+    --upstreamapp docker-ansible-role
+    --pull ${OS}
+    --write ${OS}
+    --build ${OS}
+    --push ${OS}

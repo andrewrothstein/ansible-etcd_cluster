@@ -1,6 +1,6 @@
-[![CircleCI](https://circleci.com/gh/andrewrothstein/ansible-etcd-cluster.svg?style=svg)](https://circleci.com/gh/andrewrothstein/ansible-etcd-cluster)
 andrewrothstein.etcd-cluster
 ===========================
+[![CircleCI](https://circleci.com/gh/andrewrothstein/ansible-etcd-cluster.svg?style=svg)](https://circleci.com/gh/andrewrothstein/ansible-etcd-cluster)
 
 Configures an etcd cluster. Runs a voting member on every host in the ```etcd-master``` group
 and a proxy on the rest of the hosts in the ```etcd``` group.
@@ -23,7 +23,7 @@ See [meta/main.yml](meta/main.yml)
 Example Playbook
 ----------------
 
-inventory.ini
+example inventory.ini
 ```ini
 # voting and non-voting members
 [etcd]
