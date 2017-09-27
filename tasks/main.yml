@@ -28,7 +28,7 @@
     - /etc/etcd
     - '{{etcd_cluster_pki_dir}}'
     
-- include: pki.yml
+- include_tasks: pki.yml
   when: etcd_secure
 
 - name: install etcd.service configuration
@@ -44,4 +44,4 @@
     group: '{{etcd_group}}'
     mode: 0644
 
-- include: '{{etcd_init_system}}.yml'
+- include_tasks: '{{etcd_init_system}}.yml'
