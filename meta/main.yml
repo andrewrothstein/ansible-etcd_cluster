@@ -15,12 +15,14 @@ galaxy_info:
         - 23
         - 24
         - 25
+        - 26
     - name: Ubuntu
       versions:
         - xenial
     - name: Debian
       versions:
         - jessie
+        - stretch
   galaxy_tags:
     - etcd
     - kv
@@ -28,4 +30,4 @@ galaxy_info:
 
 dependencies:
   - role: andrewrothstein.etcd
-    version: v2.1.1
+    version: v2.1.10
