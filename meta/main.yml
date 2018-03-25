@@ -16,6 +16,7 @@ galaxy_info:
         - 24
         - 25
         - 26
+        - 27
     - name: Ubuntu
       versions:
         - xenial
@@ -30,4 +31,4 @@ galaxy_info:
 
 dependencies:
   - role: andrewrothstein.etcd
-    version: v2.1.12
+    version: v2.1.14
