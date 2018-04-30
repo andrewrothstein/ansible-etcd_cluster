@@ -18,6 +18,7 @@ branches:
 
 env:
   - OS=centos_7
+  - OS=archlinux_latest
   - OS=fedora_23
   - OS=fedora_24
   - OS=fedora_25
