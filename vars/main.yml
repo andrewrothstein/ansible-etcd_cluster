@@ -1,19 +1,19 @@
 ---
-etcd_public_address : "{% if etcd_use_ips %}{{hostvars[inventory_hostname]['ansible_' + etcd_network_iface]['ipv4']['address']}}{% else %}{{inventory_hostname}}{% endif %}"
-etcd_scheme : "{% if etcd_secure %}https{% else %}http{% endif %}"
+etcd_public_address: "{% if etcd_use_ips %}{{hostvars[inventory_hostname]['ansible_' + etcd_network_iface]['ipv4']['address']}}{% else %}{{inventory_hostname}}{% endif %}"
+etcd_scheme: "{% if etcd_secure %}https{% else %}http{% endif %}"
 etcd_cluster: "{% for host in groups[etcd_master_group_name] %}{{hostvars[host]['inventory_hostname']}}={{etcd_scheme}}://{% if etcd_use_ips %}{{hostvars[host]['ansible_' + etcd_network_iface]['ipv4']['address']}}{% else %}{{host}}{% endif %}:2380{% if not loop.last %},{% endif %}{% endfor %}"
 
-etcd_cluster_data_dir : '{{etcd_data_dir}}/{{etcd_cluster_name}}.etcd'
-etcd_cluster_pki_dir : '{{etcd_data_dir}}/{{etcd_cluster_name}}.pki'
+etcd_cluster_data_dir: '{{etcd_data_dir}}/{{etcd_cluster_name}}.etcd'
+etcd_cluster_pki_dir: '{{etcd_data_dir}}/{{etcd_cluster_name}}.pki'
 
-etcd_pki_key_file : '{{inventory_hostname}}{{etcd_pki_key_suffix}}'
+etcd_pki_key_file: '{{inventory_hostname}}{{etcd_pki_key_suffix}}'
 etcd_pki_key_src: '{{etcd_pki_dir}}/{{etcd_pki_key_file}}'
-etcd_pki_key_dest : '{{etcd_cluster_pki_dir}}/{{etcd_pki_key_file}}'
+etcd_pki_key_dest: '{{etcd_cluster_pki_dir}}/{{etcd_pki_key_file}}'
 
-etcd_pki_cert_file : '{{inventory_hostname}}{{etcd_pki_cert_suffix}}'
+etcd_pki_cert_file: '{{inventory_hostname}}{{etcd_pki_cert_suffix}}'
 etcd_pki_cert_src: '{{etcd_pki_dir}}/{{etcd_pki_cert_file}}'
-etcd_pki_cert_dest : '{{etcd_cluster_pki_dir}}/{{etcd_pki_cert_file}}'
+etcd_pki_cert_dest: '{{etcd_cluster_pki_dir}}/{{etcd_pki_cert_file}}'
 
-etcd_pki_ca_file : 'ca{{etcd_pki_cert_suffix}}'
+etcd_pki_ca_file: 'ca{{etcd_pki_cert_suffix}}'
 etcd_pki_ca_cert_src: '{{etcd_pki_dir}}/{{etcd_pki_ca_file}}'
-etcd_pki_ca_cert_dest : '{{etcd_cluster_pki_dir}}/{{etcd_pki_ca_file}}'
+etcd_pki_ca_cert_dest: '{{etcd_cluster_pki_dir}}/{{etcd_pki_ca_file}}'
