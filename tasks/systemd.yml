@@ -1,5 +1,4 @@
 ---
-    
 - name: install etcd.service systemd unit
   become: yes
   become_user: root
@@ -10,14 +9,14 @@
   template:
     src: '{{item.f}}.j2'
     dest: '{{item.d}}/{{item.f}}'
-    mode: 0644
+    mode: '{{item.m|default("0644")}}'
 
 - name: systemctl daemon-reload
   become: yes
   become_user: root
-  when: etcd_launch and etcd_service_modified|changed
+  when: etcd_launch and etcd_service_modified is changed
   command: systemctl daemon-reload
-    
+
 - name: launching etcd...
   when: etcd_launch
   become: yes
