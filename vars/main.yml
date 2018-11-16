@@ -1,7 +1,7 @@
 ---
-etcd_public_address: "{% if etcd_use_ips %}{{hostvars[inventory_hostname]['ansible_' + etcd_network_iface]['ipv4']['address']}}{% else %}{{inventory_hostname}}{% endif %}"
+etcd_public_address: "{% if etcd_use_ips %}{{hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}{% else %}{{inventory_hostname}}{% endif %}"
 etcd_scheme: "{% if etcd_secure %}https{% else %}http{% endif %}"
-etcd_cluster: "{% for host in groups[etcd_master_group_name] %}{{hostvars[host]['inventory_hostname']}}={{etcd_scheme}}://{% if etcd_use_ips %}{{hostvars[host]['ansible_' + etcd_network_iface]['ipv4']['address']}}{% else %}{{host}}{% endif %}:2380{% if not loop.last %},{% endif %}{% endfor %}"
+etcd_cluster: "{% for host in groups[etcd_master_group_name] %}{{hostvars[host]['inventory_hostname']}}={{etcd_scheme}}://{% if etcd_use_ips %}{{hostvars[host]['ansible_default_ipv4']['address']}}{% else %}{{host}}{% endif %}:2380{% if not loop.last %},{% endif %}{% endfor %}"
 
 etcd_cluster_data_dir: '{{etcd_data_dir}}/{{etcd_cluster_name}}.etcd'
 etcd_cluster_pki_dir: '{{etcd_data_dir}}/{{etcd_cluster_name}}.pki'
