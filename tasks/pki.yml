@@ -4,7 +4,7 @@
   become_user: root
   with_items:
     - f: '{{ etcd_pki_key_src }}'
-      d: '{{etcd_pki_key_dest }}'
+      d: '{{ etcd_pki_key_dest }}'
       m: '0400'
     - f: '{{ etcd_pki_cert_src }}'
       d: '{{ etcd_pki_cert_dest }}'
