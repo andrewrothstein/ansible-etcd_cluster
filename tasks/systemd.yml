@@ -7,9 +7,9 @@
     - f: etcd.service
       d: /etc/systemd/system
   template:
-    src: '{{item.f}}.j2'
-    dest: '{{item.d}}/{{item.f}}'
-    mode: '{{item.m|default("0644")}}'
+    src: '{{ item.f }}.j2'
+    dest: '{{ item.d }}/{{ item.f }}'
+    mode: '{{ item.m | default("0644") }}'
 
 - name: systemctl daemon-reload
   become: yes
