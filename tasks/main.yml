@@ -5,7 +5,7 @@
   group:
     name: '{{ etcd_group }}'
     state: present
-  
+
 - name: create etcd user
   become: yes
   become_user: root
@@ -27,7 +27,7 @@
   with_items:
     - /etc/etcd
     - '{{ etcd_cluster_pki_dir }}'
-    
+
 - include_tasks: pki.yml
   when: etcd_secure
 

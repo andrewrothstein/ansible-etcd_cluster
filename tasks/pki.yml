@@ -3,12 +3,18 @@
   become: yes
   become_user: root
   with_items:
-    - { f: '{{etcd_pki_key_src}}', d: '{{etcd_pki_key_dest}}', m: '0400' }
-    - { f: '{{etcd_pki_cert_src}}', d: '{{etcd_pki_cert_dest}}', m: '0600'}
-    - { f: '{{etcd_pki_ca_cert_src}}', d: '{{etcd_pki_ca_cert_dest}}', m: '0600' }
+    - f: '{{ etcd_pki_key_src }}'
+      d: '{{etcd_pki_key_dest }}'
+      m: '0400'
+    - f: '{{ etcd_pki_cert_src }}'
+      d: '{{ etcd_pki_cert_dest }}'
+      m: '0600'
+    - f: '{{ etcd_pki_ca_cert_src }}'
+      d: '{{ etcd_pki_ca_cert_dest }}'
+      m: '0600'
   copy:
-    src: '{{item.f}}'
-    dest: '{{item.d}}'
-    owner: '{{etcd_user}}'
-    group: '{{etcd_group}}'
-    mode: '{{item.m}}'
+    src: '{{ item.f }}'
+    dest: '{{ item.d }}'
+    owner: '{{ etcd_user }}'
+    group: '{{ etcd_group }}'
+    mode: '{{ item.m }}'
