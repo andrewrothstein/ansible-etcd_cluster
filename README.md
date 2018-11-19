@@ -38,7 +38,7 @@ in your playbook:
 ```yml
 - hosts: etcd
   roles:
-    - andrewrothstein.etcd-cluster
+    - role: andrewrothstein.etcd-cluster
       # if you don't want to secure your install then use
       # etcd_secure: False
 ```
