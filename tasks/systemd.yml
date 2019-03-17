@@ -15,7 +15,8 @@
   become: yes
   become_user: root
   when: etcd_launch and etcd_service_modified is changed
-  command: systemctl daemon-reload
+  systemd:
+    daemon_reload: yes
 
 - name: launching etcd...
   when: etcd_launch
