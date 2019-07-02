@@ -1,0 +1,36 @@
+[ req ]
+default_bits = 2048
+prompt = no
+default_md = sha256
+req_extensions = req_ext
+distinguished_name = dn
+
+[ dn ]
+CN = {{ ansible_fqdn }}
+{% if etcd_gen_pki_organization|length %}
+O = {{ etcd_gen_pki_organization }}
+{% endif %}
+{% if etcd_gen_pki_locality|length %}
+L = {{ etcd_gen_pki_locality }}
+{% endif %}
+{% if etcd_gen_pki_state|length %}
+ST = {{ etcd_gen_pki_state }}
+{% endif %}
+{% if etcd_gen_pki_country|length %}
+C = {{ etcd_gen_pki_country }}
+{% endif %}
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = {{ ansible_fqdn }}
+DNS.2 = {{ ansible_hostname }}
+IP.1 = {{ ansible_default_ipv4.address }}
+
+[ v3_ext ]
+authorityKeyIdentifier=keyid,issuer:always
+basicConstraints=CA:FALSE
+keyUsage=keyEncipherment,dataEncipherment
+extendedKeyUsage=serverAuth,clientAuth
+subjectAltName=@alt_names

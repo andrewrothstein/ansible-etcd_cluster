@@ -28,8 +28,22 @@
     - /etc/etcd
     - '{{ etcd_cluster_pki_dir }}'
 
+- name: check for local pki directory
+  local_action:
+    module: stat
+    path: '{{ etcd_pki_dir }}'
+  run_once: true
+  register: local_pki_dir
+
 - include_tasks: pki.yml
-  when: etcd_secure
+  when:
+  - etcd_secure
+  - local_pki_dir.stat.exists
+
+- include_tasks: gen-pki.yml
+  when:
+  - etcd_secure
+  - not local_pki_dir.stat.exists
 
 - name: install etcd.service configuration
   become: yes

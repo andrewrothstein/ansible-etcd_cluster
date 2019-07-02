@@ -4,12 +4,22 @@ etcd_group: etcd
 etcd_install_dir: /usr/local/bin
 etcd_data_dir: /var/lib/etcd
 
+etcd_group_name: etcd
 etcd_master_group_name: etcd-master
 
 etcd_secure: True
 etcd_pki_dir: ~/pki-dir
+etcd_pki_csr_conf_suffix: -csr.conf
+etcd_pki_csr_suffix: .csr
 etcd_pki_key_suffix: -key.pem
 etcd_pki_cert_suffix: .pem
+etcd_pki_key_size: 2048
+etcd_pki_cert_duration: 36500
+
+etcd_gen_pki_country: ''
+etcd_gen_pki_state: ''
+etcd_gen_pki_locality: ''
+etcd_gen_pki_organization: ''
 
 etcd_use_ips: True
 etcd_network_iface: default

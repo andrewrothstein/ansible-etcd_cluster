@@ -1,0 +1,132 @@
+---
+- name: gen-pki | Check ca key
+  stat:
+    path: '{{ etcd_pki_ca_key_dest }}'
+  delegate_to: '{{ groups[etcd_group_name][0] }}'
+  register: gen_pki_ca_key
+
+- name: gen-pki | Check host keys
+  stat:
+    path: '{{ etcd_pki_key_dest }}'
+  delegate_to: '{{ groups[etcd_group_name][0] }}'
+  register: gen_pki_key
+
+- name: gen-pki | Generate missing CA
+  become: yes
+  become_user: root
+  block:
+  - name: gen-pki | Generate ca key
+    command: 'openssl genrsa -out {{ etcd_pki_ca_key_dest }} {{ etcd_pki_key_size }}'
+
+  - name: gen-pki | Generate ca cert
+    command: >-
+      openssl req -x509 -new -nodes
+        -subj '/CN={{ etcd_cluster_name }}-ca'
+        -days '{{ etcd_pki_cert_duration }}'
+        -key '{{ etcd_pki_ca_key_dest }}'
+        -out '{{ etcd_pki_ca_cert_dest }}'
+  when:
+  - not gen_pki_ca_key.stat.exists
+  - inventory_hostname == groups[etcd_group_name][0]
+
+- name: gen-pki | Create host keys
+  become: yes
+  become_user: root
+  command: 'openssl genrsa -out {{ etcd_pki_key_dest }} {{ etcd_pki_key_size }}'
+  delegate_to: '{{ groups[etcd_group_name][0] }}'
+  when: not gen_pki_key.stat.exists
+
+- name: gen-pki | Render openssl csr config
+  become: yes
+  become_user: root
+  template:
+    src: 'csr.conf.j2'
+    dest: '{{ etcd_pki_csr_conf_dest }}'
+  delegate_to: '{{ groups[etcd_group_name][0] }}'
+  register: gen_pki_csr_config
+
+- name: gen-pki | Create host signing requests
+  become: yes
+  become_user: root
+  command: >-
+    openssl req -new
+      -config '{{ etcd_pki_csr_conf_dest }}'
+      -key '{{ etcd_pki_key_dest }}'
+      -out '{{ etcd_pki_csr_dest }}'
+  delegate_to: '{{ groups[etcd_group_name][0] }}'
+  when: not gen_pki_key.stat.exists or gen_pki_csr_config.changed
+  register: gen_pki_new_csr
+
+- name: gen-pki | Sign host certs
+  become: yes
+  become_user: root
+  command: >-
+    openssl x509 -req -CAcreateserial
+      -days '{{ etcd_pki_cert_duration }}'
+      -extensions v3_ext -extfile '{{ etcd_pki_csr_conf_dest }}'
+      -CA '{{ etcd_pki_ca_cert_dest }}' -CAkey '{{ etcd_pki_ca_key_dest }}'
+      -in '{{ etcd_pki_csr_dest }}' -out '{{ etcd_pki_cert_dest }}'
+  delegate_to: '{{ groups[etcd_group_name][0] }}'
+  when: not gen_pki_ca_key.stat.exists or gen_pki_new_csr.changed
+
+- name: gen-pki | List keys
+  find:
+    paths:
+    - '{{ etcd_cluster_pki_dir }}'
+    patterns:
+    - '*{{ etcd_pki_key_suffix }}'
+  register: gen_pki_key_files
+
+- name: gen-pki | List certs
+  find:
+    paths:
+    - '{{ etcd_cluster_pki_dir }}'
+    patterns:
+    - '*{{ etcd_pki_cert_suffix }}'
+    - '*{{ etcd_pki_csr_suffix }}'
+    - '*{{ etcd_pki_csr_conf_suffix }}'
+    excludes:
+    - '*{{ etcd_pki_key_suffix }}'
+  register: gen_pki_cert_files
+
+- name: gen-pki | Handle pki file permissions
+  become: yes
+  become_user: root
+  block:
+  - name: gen-pki | Set owner
+    file:
+      path: '{{ etcd_cluster_pki_dir }}'
+      state: directory
+      owner: '{{ etcd_user }}'
+      group: '{{ etcd_group }}'
+      recurse: true
+
+  - name: gen-pki | Set key permissions
+    file:
+      path: '{{ item.path }}'
+      mode: '0400'
+    with_items: '{{ gen_pki_key_files.files }}'
+
+  - name: gen-pki | Set cert permissions
+    file:
+      path: '{{ item.path }}'
+      mode: '0600'
+    with_items: '{{ gen_pki_cert_files.files }}'
+
+- name: gen-pki | Create tls bundle
+  become: yes
+  become_user: root
+  shell: tar cz -C '{{ etcd_cluster_pki_dir }}' . | base64 --wrap=0
+  args:
+    warn: false
+  run_once: true
+  delegate_to: '{{ groups[etcd_group_name][0] }}'
+  register: etcd_cert_bundle
+
+- name: gen-pki | Distribute tls bundle
+  become: yes
+  become_user: root
+  shell: base64 -d | tar xz -C '{{ etcd_cluster_pki_dir }}'
+  args:
+    stdin: '{{ etcd_cert_bundle.stdout }}'
+  when: not inventory_hostname == groups[etcd_group_name][0]
