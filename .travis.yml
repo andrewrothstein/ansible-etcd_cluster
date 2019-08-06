@@ -1,3 +1,7 @@
+before_install: "if [[ \"$TRAVIS_OS_NAME\" == \"osx\" ]]\nthen\n  brew upgrade openssl\
+  \ || brew install openssl || true\n  brew upgrade python@3 || brew install python@3\
+  \ || true\n  brew upgrade md5sha1sum || brew install md5sha1sum || true\n  virtualenv\
+  \ venv -p python\n  source venv/bin/activate\n  pip install ansible\nfi"
 branches:
   except:
   - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
@@ -5,6 +9,7 @@ dist: xenial
 env:
 - OS=archlinux_latest
 - OS=centos_7
+- OS=debian_buster
 - OS=debian_jessie
 - OS=debian_stretch
 - OS=fedora_23
@@ -21,8 +26,8 @@ language: python
 python: '3.7'
 script:
 - ansible-galaxy-local-deps-write
-- dcb --upstreamgroup andrewrothstein --upstreamapp docker-ansible-role --alltags
-  ${OS} --pullall --writeall --buildall --pushall
+- dcb --upstreamgroup andrewrothstein --upstreamapp docker-ansible-role --pullall
+  --writeall --buildall --pushall --alltags ${OS}
 services:
 - docker
 sudo: required
