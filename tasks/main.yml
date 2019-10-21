@@ -43,5 +43,6 @@
     owner: '{{ etcd_user }}'
     group: '{{ etcd_group }}'
     mode: 0644
+  notify: restart etcd
 
 - include_tasks: '{{ etcd_init_system }}.yml'
