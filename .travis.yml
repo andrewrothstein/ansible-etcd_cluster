@@ -20,6 +20,9 @@ env:
 - OS=fedora_28
 - OS=fedora_29
 - OS=fedora_30
+- OS=fedora_31
+- OS=fedora_32
+- OS=ubi8_8.0
 - OS=ubuntu_bionic
 - OS=ubuntu_xenial
 language: python
