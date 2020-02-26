@@ -10,6 +10,7 @@ ETCD_DATA_DIR="{{etcd_cluster_data_dir}}"
 {% set client_endpoints = [ etcd_listen_public, '127.0.0.1' ] %}
 {% endif %}
 ETCD_LISTEN_CLIENT_URLS="{{ client_endpoints | map('regex_replace', '^(.+)$', etcd_scheme ~ '\\1' ~ ':' ~ etcd_port_client) | join(',') }}"
+ETCD_ENABLE_V2={{etcd_enable_v2}}
 #ETCD_MAX_SNAPSHOTS="5"
 #ETCD_MAX_WALS="5"
 #ETCD_CORS=""
