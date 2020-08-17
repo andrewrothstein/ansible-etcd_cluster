@@ -24,3 +24,5 @@ etcd_init_system: systemd
 etcd_launch: True
 
 etcd_enable_v2: True # Accept etcd V2 client requests
+
+etcd_additional_envvars: {}
