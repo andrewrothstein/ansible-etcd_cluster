@@ -51,3 +51,8 @@ ETCD_PEER_TRUSTED_CA_FILE="{{etcd_pki_ca_cert_dest}}"
 #ETCD_DEBUG="true"
 # examples for -log-package-levels etcdserver=WARNING,security=DEBUG
 #ETCD_LOG_PACKAGE_LEVELS="etcdserver=DEBUG"
+
+# [custom_env_vars]
+{% for k, v in etcd_additional_envvars.items() %}
+{{k}}="{{v}}"
+{% endfor %}
