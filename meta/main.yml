@@ -7,23 +7,26 @@ galaxy_info:
     - MIT
   min_ansible_version: 2.0
   platforms:
+    - name: Archlinux
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - buster
+        - stretch
     - name: EL
       versions:
         - 7
+        - 8
     - name: Fedora
       versions:
-        - 23
-        - 24
-        - 25
-        - 26
-        - 27
+        - 31
+        - 32
     - name: Ubuntu
       versions:
+        - bionic
+        - focal
         - xenial
-    - name: Debian
-      versions:
-        - jessie
-        - stretch
   galaxy_tags:
     - etcd
     - kv
@@ -31,4 +34,4 @@ galaxy_info:
 
 dependencies:
   - role: andrewrothstein.etcd
-    version: v2.1.34
+    version: v2.1.35
