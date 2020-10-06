@@ -34,4 +34,4 @@ galaxy_info:
 
 dependencies:
   - role: andrewrothstein.etcd
-    version: v2.1.35
+    version: v2.1.36
