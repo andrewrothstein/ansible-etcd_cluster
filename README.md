@@ -30,7 +30,7 @@ example inventory.ini
 host[1:n].test
 
 # voting members
-[etcd-master]
+[etcd_master]
 host[1:3].test
 ```
 

@@ -4,7 +4,7 @@ etcd_group: etcd
 etcd_install_dir: /usr/local/bin
 etcd_data_dir: /var/lib/etcd
 
-etcd_master_group_name: etcd-master
+etcd_master_group_name: etcd_master
 
 etcd_secure: True
 etcd_pki_dir: ~/pki-dir
