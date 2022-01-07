@@ -25,4 +25,5 @@ etcd_launch: True
 
 etcd_enable_v2: True # Accept etcd V2 client requests
 
+etcd_service_start_timeout: 5min
 etcd_additional_envvars: {}
