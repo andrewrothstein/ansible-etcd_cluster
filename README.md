@@ -43,6 +43,11 @@ in your playbook:
       # etcd_secure: False
 ```
 
+Get details of etcd cluster
+```
+etcdctl endpoint status --cluster -w table
+```
+
 License
 -------
 
