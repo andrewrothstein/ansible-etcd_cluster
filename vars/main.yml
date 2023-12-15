@@ -1,7 +1,7 @@
 ---
 
 etcd_scheme: "{% if etcd_secure %}https{% else %}http{% endif %}://"
-etcd_cluster: "{% for host in groups[etcd_master_group_name] %}{{ hostvars[host]['ansible_fqdn'] }}={{ etcd_scheme }}{{ hostvars[host]['etcd_address_cluster'] }}:{{ etcd_port_peer }}{% if not loop.last %},{% endif %}{% endfor %}"
+etcd_cluster: "{% for host in groups[etcd_master_group_name] %}{{ hostvars[host]['ansible_fqdn' if not etcd_use_ips | bool else 'inventory_hostname'] }}={{ etcd_scheme }}{{ hostvars[host]['etcd_address_cluster'] }}:{{ etcd_port_peer }}{% if not loop.last %},{% endif %}{% endfor %}"
 
 etcd_cluster_data_dir: '{{ etcd_data_dir }}/{{ etcd_cluster_name }}.etcd'
 etcd_cluster_pki_dir: '{{ etcd_data_dir }}/{{ etcd_cluster_name }}.pki'

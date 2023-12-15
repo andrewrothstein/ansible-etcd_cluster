@@ -1,5 +1,5 @@
 # [member]
-ETCD_NAME="{{ansible_fqdn}}"
+ETCD_NAME="{{ ansible_fqdn if not etcd_use_ips | bool else inventory_hostname }}"
 ETCD_DATA_DIR="{{etcd_cluster_data_dir}}"
 #ETCD_SNAPSHOT_COUNTER="10000"
 #ETCD_HEARTBEAT_INTERVAL="100"
