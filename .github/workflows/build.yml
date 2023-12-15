@@ -1,0 +1,5 @@
+---
+jobs:
+  bake-ansible-images-v1:
+    uses: andrewrothstein/.github/.github/workflows/bake-ansible-images-v1.yml@develop
+'on': push

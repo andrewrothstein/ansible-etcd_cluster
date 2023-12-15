@@ -1,18 +1,18 @@
 ---
 - name: install keys/certs
-  become: yes
+  become: true
   become_user: root
   with_items:
     - f: '{{ etcd_pki_key_src }}'
       d: '{{ etcd_pki_key_dest }}'
-      m: '0400'
+      m: '400'
     - f: '{{ etcd_pki_cert_src }}'
       d: '{{ etcd_pki_cert_dest }}'
-      m: '0600'
+      m: '600'
     - f: '{{ etcd_pki_ca_cert_src }}'
       d: '{{ etcd_pki_ca_cert_dest }}'
-      m: '0600'
-  copy:
+      m: '600'
+  ansible.builtin.copy:
     src: '{{ item.f }}'
     dest: '{{ item.d }}'
     owner: '{{ etcd_user }}'

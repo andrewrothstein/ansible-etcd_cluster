@@ -6,12 +6,12 @@ etcd_data_dir: /var/lib/etcd
 
 etcd_master_group_name: etcd_master
 
-etcd_secure: True
+etcd_secure: true
 etcd_pki_dir: ~/pki-dir
 etcd_pki_key_suffix: -key.pem
 etcd_pki_cert_suffix: .pem
 
-etcd_use_ips: True
+etcd_use_ips: true
 etcd_iface_public: '{{ etcd_network_iface | default("all") }}'
 etcd_iface_cluster: '{{ etcd_network_iface | default("default") }}'
 etcd_port_client: 2379
@@ -21,8 +21,9 @@ etcd_cluster_name: test-cluster-name
 etcd_initial_cluster_token: d8bf8cc6-5158-11e6-8f13-3b32f4935bde
 
 etcd_init_system: systemd
-etcd_launch: True
+etcd_launch: true
 
-etcd_enable_v2: True # Accept etcd V2 client requests
+# Accept etcd V2 client requests
+etcd_enable_v2: true
 
 etcd_additional_envvars: {}

@@ -1,33 +1,35 @@
 ---
+- include_role:
+    name: andrewrothstein.etcd
 
 - name: Collect facts
   set_fact:
-    cacheable: yes
-    etcd_listen_public: '{{ "0.0.0.0" if etcd_iface_public == "all" else ansible_default_ipv4.address if etcd_iface_public == "default" else hostvars[inventory_hostname]["ansible_" ~ etcd_iface_public]["ipv4"]["address"] }}'
-    etcd_listen_cluster: '{{ "0.0.0.0" if etcd_iface_cluster == "all" else ansible_default_ipv4.address if etcd_iface_cluster == "default" else hostvars[inventory_hostname]["ansible_" ~ etcd_iface_cluster]["ipv4"]["address"] }}'
-    etcd_address_public: '{{ ansible_fqdn if not etcd_use_ips | bool else ansible_default_ipv4.address if etcd_iface_public is in [ "all", "default" ] else hostvars[inventory_hostname]["ansible_" ~ etcd_iface_public]["ipv4"]["address"] }}'
-    etcd_address_cluster: '{{ ansible_fqdn if not etcd_use_ips | bool else ansible_default_ipv4.address if etcd_iface_cluster is in [ "all", "default" ] else hostvars[inventory_hostname]["ansible_" ~ etcd_iface_cluster]["ipv4"]["address"] }}'
+    cacheable: true
+    etcd_listen_public: '{{ etcd_listen }}'
+    etcd_listen_cluster: '{{ etcd_listen }}'
+    etcd_address_public: '{{ etcd_address }}'
+    etcd_address_cluster: '{{ etcd_address }}'
 
 - name: create etcd group
-  become: yes
+  become: true
   become_user: root
-  group:
+  ansible.builtin.group:
     name: '{{ etcd_group }}'
     state: present
 
 - name: create etcd user
-  become: yes
+  become: true
   become_user: root
-  user:
+  ansible.builtin.user:
     name: '{{ etcd_user }}'
     group: '{{ etcd_group }}'
     home: '{{ etcd_data_dir }}'
     state: present
 
 - name: create dirs...
-  become: yes
+  become: true
   become_user: root
-  file:
+  ansible.builtin.file:
     state: directory
     path: '{{ item }}'
     owner: '{{ etcd_user }}'
@@ -37,23 +39,23 @@
     - /etc/etcd
     - '{{ etcd_cluster_pki_dir }}'
 
-- include_tasks: pki.yml
+- ansible.builtin.include_tasks: pki.yml
   when: etcd_secure | bool
 
 - name: install etcd.service configuration
-  become: yes
+  become: true
   become_user: root
   with_items:
     - f: etcd.conf
       d: /etc/etcd
-  template:
+  ansible.builtin.template:
     src: '{{ item.f }}.j2'
     dest: '{{ item.d }}/{{ item.f }}'
     owner: '{{ etcd_user }}'
     group: '{{ etcd_group }}'
     mode: 0644
   notify:
-  - restart etcd masters
-  - restart etcd members
+    - restart etcd masters
+    - restart etcd members
 
-- include_tasks: '{{ etcd_init_system }}.yml'
+- ansible.builtin.include_tasks: '{{ etcd_init_system }}.yml'

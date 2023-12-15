@@ -17,3 +17,21 @@ etcd_pki_cert_dest: '{{ etcd_cluster_pki_dir }}/{{ etcd_pki_cert_file }}'
 etcd_pki_ca_file: 'ca{{ etcd_pki_cert_suffix }}'
 etcd_pki_ca_cert_src: '{{ etcd_pki_dir }}/{{ etcd_pki_ca_file }}'
 etcd_pki_ca_cert_dest: '{{ etcd_cluster_pki_dir }}/{{ etcd_pki_ca_file }}'
+
+etcd_listen: |-
+  {%- if etcd_iface_public == "all" -%}
+  0.0.0.0
+  {%- elif etcd_iface_public == "default" -%}
+  {{- ansible_default_ipv4.address | default("127.0.0.1") -}}
+  {%- else -%}
+  {{- hostvars[inventory_hostname]["ansible_" ~ etcd_iface_public]["ipv4"]["address"] -}}
+  {%- endif -%}
+
+etcd_address: |-
+  {%- if not (etcd_use_ips | bool) -%}
+  {{- ansible_fqdn -}}
+  {%- elif etcd_iface_public is in [ "all", "default" ] -%}
+  {{- ansible_default_ipv4.address | default("127.0.0.1") -}}
+  {%- else -%}
+  {{- hostvars[inventory_hostname]["ansible_" ~ etcd_iface_public]["ipv4"]["address"] -}}
+  {%- endif -%}
