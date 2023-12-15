@@ -11,14 +11,14 @@
     dest: '{{ item.d }}/{{ item.f }}'
     mode: '{{ item.m | default("0644") }}'
 
-- name: systemctl daemon-reload
+- name: Systemctl daemon-reload
   become: true
   become_user: root
   when: etcd_launch and etcd_service_modified is changed
   ansible.builtin.systemd:
     daemon_reload: true
 
-- name: launching etcd...
+- name: Launching etcd...
   when: etcd_launch
   become: true
   become_user: root

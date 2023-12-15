@@ -1,4 +1,4 @@
-andrewrothstein.etcd-cluster
+andrewrothstein.etcd_cluster
 ===========================
 ![Build Status](https://github.com/andrewrothstein/ansible-etcd_cluster/actions/workflows/build.yml/badge.svg)
 
@@ -38,7 +38,7 @@ in your playbook:
 ```yml
 - hosts: etcd
   roles:
-    - role: andrewrothstein.etcd-cluster
+    - role: andrewrothstein.etcd_cluster
       # if you don't want to secure your install then use
       # etcd_secure: False
 ```

@@ -1,5 +1,6 @@
 ---
-- include_role:
+- name: Installing etcd...
+  ansible.builtin.include_role:
     name: andrewrothstein.etcd
 
 - name: Collect facts
@@ -10,14 +11,14 @@
     etcd_address_public: '{{ etcd_address }}'
     etcd_address_cluster: '{{ etcd_address }}'
 
-- name: create etcd group
+- name: Create etcd group
   become: true
   become_user: root
   ansible.builtin.group:
     name: '{{ etcd_group }}'
     state: present
 
-- name: create etcd user
+- name: Create etcd user
   become: true
   become_user: root
   ansible.builtin.user:
@@ -26,7 +27,7 @@
     home: '{{ etcd_data_dir }}'
     state: present
 
-- name: create dirs...
+- name: Create dirs...
   become: true
   become_user: root
   ansible.builtin.file:
@@ -34,15 +35,16 @@
     path: '{{ item }}'
     owner: '{{ etcd_user }}'
     group: '{{ etcd_group }}'
-    mode: 0755
+    mode: '755'
   with_items:
     - /etc/etcd
     - '{{ etcd_cluster_pki_dir }}'
 
-- ansible.builtin.include_tasks: pki.yml
+- name: Install PKI...
+  ansible.builtin.include_tasks: pki.yml
   when: etcd_secure | bool
 
-- name: install etcd.service configuration
+- name: Install etcd.service configuration
   become: true
   become_user: root
   with_items:
@@ -53,9 +55,10 @@
     dest: '{{ item.d }}/{{ item.f }}'
     owner: '{{ etcd_user }}'
     group: '{{ etcd_group }}'
-    mode: 0644
+    mode: '644'
   notify:
     - restart etcd masters
     - restart etcd members
 
-- ansible.builtin.include_tasks: '{{ etcd_init_system }}.yml'
+- name: Configure init system
+  ansible.builtin.include_tasks: '{{ etcd_init_system }}.yml'
