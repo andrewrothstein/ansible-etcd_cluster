@@ -27,3 +27,12 @@ etcd_launch: true
 etcd_enable_v2: true
 
 etcd_additional_envvars: {}
+
+# systemd Service.TimeoutStartSec
+# etcd_service_start_timeout: '5min'
+
+# systemd Service.Restart
+# etcd_service_restart: on-failure
+
+# systemd Service.LimitNOFILE
+# etcd_service_limitnofile: 65536
