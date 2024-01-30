@@ -1,12 +1,17 @@
 ---
 galaxy_info:
   author: Andrew Rothstein
-  description: configures an etcd cluster
   company: BlackRock
+  description: configures an etcd cluster
+  galaxy_tags:
+    - etcd
+    - kv
+    - transactions
   license: MIT
   min_ansible_version: '2.0'
+  namespace: andrewrothstein
   platforms:
-    - name: Archlinux
+    - name: ArchLinux
       versions:
         - all
     - name: Debian
@@ -15,18 +20,14 @@ galaxy_info:
         - bullseye
     - name: EL
       versions:
-        - 8
-        - 9
+        - '8'
+        - '9'
     - name: Fedora
       versions:
-        - 38
-        - 39
+        - '38'
+        - '39'
     - name: Ubuntu
       versions:
         - focal
         - jammy
-  galaxy_tags:
-    - etcd
-    - kv
-    - transactions
   role_name: etcd_cluster
