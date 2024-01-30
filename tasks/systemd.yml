@@ -1,5 +1,5 @@
 ---
-- name: install etcd.service systemd unit
+- name: Install etcd.service systemd unit
   become: true
   become_user: root
   register: etcd_service_modified
