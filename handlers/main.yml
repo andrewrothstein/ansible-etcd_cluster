@@ -2,7 +2,7 @@
 # handlers file for etcd_cluster
 
 # Restart masters one-by-one to keep quorum
-- name: restart etcd masters
+- name: Restart etcd masters
   become: true
   become_user: root
   when: etcd_launch | bool
@@ -14,7 +14,7 @@
   delegate_to: '{{ item }}'
 
 # Restart non-voting members
-- name: restart etcd members
+- name: Restart etcd members
   become: true
   become_user: root
   when:
