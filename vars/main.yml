@@ -30,7 +30,7 @@ etcd_listen: |-
 etcd_address: |-
   {%- if not (etcd_use_ips | bool) -%}
   {{- ansible_fqdn -}}
-  {%- elif etcd_iface_public is in [ "all", "default" ] -%}
+  {%- elif etcd_iface_public in [ "all", "default" ] -%}
   {{- ansible_default_ipv4.address | default("127.0.0.1") -}}
   {%- else -%}
   {{- hostvars[inventory_hostname]["ansible_" ~ etcd_iface_public]["ipv4"]["address"] -}}

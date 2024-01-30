@@ -19,7 +19,7 @@
   become_user: root
   when:
     - etcd_launch | bool
-    - inventory_hostname is not in (groups[etcd_master_group_name])
+    - not inventory_hostname in groups[etcd_master_group_name]
   ansible.builtin.service:
     name: etcd
     state: restarted
