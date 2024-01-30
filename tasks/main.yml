@@ -4,7 +4,7 @@
     name: andrewrothstein.etcd
 
 - name: Collect facts
-  set_fact:
+  ansible.builtin.set_fact:
     cacheable: true
     etcd_listen_public: '{{ etcd_listen }}'
     etcd_listen_cluster: '{{ etcd_listen }}'

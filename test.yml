@@ -1,7 +1,9 @@
 ---
-- hosts: all
+- name: Testing andrewrothstein.etcd_cluster
+  hosts: all
+  vars:
+    etcd_use_ips: false
+    etcd_pki_dir: '{{ playbook_dir }}/test-pki'
+    etcd_launch: false
   roles:
     - role: '{{ playbook_dir }}'
-      etcd_use_ips: false
-      etcd_pki_dir: '{{ playbook_dir }}/test-pki'
-      etcd_launch: false
