@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 {% if etcd_service_start_timeout -%}
-TimeoutStartSec={{ etcd_service_start_timeout  }}
+TimeoutStartSec={{ etcd_service_start_timeout | default("5m") }}
 {%- endif %}
 Type={{ etcd_systemd_service_type | default("notify") }}
 User={{ etcd_user }}
