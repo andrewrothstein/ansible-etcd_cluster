@@ -1,14 +1,14 @@
 # [member]
 ETCD_NAME="{{ ansible_fqdn if not etcd_use_ips | bool else inventory_hostname }}"
-ETCD_DATA_DIR={{ etcd_cluster_data_dir | quote }}
+ETCD_DATA_DIR="{{ etcd_cluster_data_dir }}"
 {% if etcd_cluster_snapshot_counter is defined %}
-ETCD_SNAPSHOT_COUNTER={{ etcd_cluster_snapshot_counter | quote }}
+ETCD_SNAPSHOT_COUNTER="{{ etcd_cluster_snapshot_counter }}"
 {% endif %}
 {% if etcd_cluster_heartbeat_interval is defined %}
-ETCD_HEARTBEAT_INTERVAL={{ etcd_cluster_heartbeat_interval | quote }}
+ETCD_HEARTBEAT_INTERVAL="{{ etcd_cluster_heartbeat_interval }}"
 {% endif %}
 {% if etcd_cluster_election_timeout is defined %}
-ETCD_ELECTION_TIMEOUT={{ etcd_cluster_election_timeout | quote }}
+ETCD_ELECTION_TIMEOUT="{{ etcd_cluster_election_timeout }}"
 {% endif %}
 {% if etcd_iface_public == 'all' %}
 {% set client_endpoints = [ etcd_listen_public ] %}
@@ -16,15 +16,15 @@ ETCD_ELECTION_TIMEOUT={{ etcd_cluster_election_timeout | quote }}
 {% set client_endpoints = [ etcd_listen_public, '127.0.0.1' ] %}
 {% endif %}
 ETCD_LISTEN_CLIENT_URLS={{ client_endpoints | map('regex_replace', '^(.+)$', etcd_scheme ~ '\\1' ~ ':' ~ etcd_port_client) | join(',') | quote }}
-ETCD_ENABLE_V2={{ etcd_enable_v2 }}
-{% if etcd_config_max_snapshots is defined %}
-ETCD_MAX_SNAPSHOTS={{ etcd_config_max_snapshots | quote }}
+ETCD_ENABLE_V2="{{ etcd_enable_v2 | string | lower }}"
+{% if etcd_cluster_max_snapshots is defined %}
+ETCD_MAX_SNAPSHOTS="{{ etcd_cluster_max_snapshots }}"
 {% endif %}
-{% if etcd_config_max_wals is defined %}
-ETCD_MAX_WALS={{ etcd_config_max_wals | quote }}
+{% if etcd_cluster_max_wals is defined %}
+ETCD_MAX_WALS="{{ etcd_cluster_max_wals }}"
 {% endif %}
-{% if etcd_config_cors is defined %}
-ETCD_CORS={{ etcd_config_cors | quote }}
+{% if etcd_cluster_cors is defined %}
+ETCD_CORS="{{ etcd_cluster_cors }}"
 {% endif %}
 #
 #
@@ -35,9 +35,9 @@ ETCD_ADVERTISE_CLIENT_URLS="{{ etcd_scheme }}{{ etcd_address_public }}:{{ etcd_p
 ETCD_INITIAL_ADVERTISE_PEER_URLS="{{ etcd_scheme }}{{ etcd_address_cluster }}:{{ etcd_port_peer }}"
 {% endif %}
 #
-ETCD_INITIAL_CLUSTER={{ etcd_cluster | quote }}
+ETCD_INITIAL_CLUSTER="{{ etcd_cluster }}"
 ETCD_INITIAL_CLUSTER_STATE="new"
-ETCD_INITIAL_CLUSTER_TOKEN={{ etcd_initial_cluster_token | quote }}
+ETCD_INITIAL_CLUSTER_TOKEN="{{ etcd_initial_cluster_token }}"
 #
 # if you use different ETCD_NAME (e.g. test), set ETCD_INITIAL_CLUSTER value for this name, i.e. "test=http://..."
 #ETCD_DISCOVERY=""
@@ -52,30 +52,30 @@ ETCD_PROXY="on"
 #
 #[security]
 {% if etcd_secure %}
-ETCD_CERT_FILE={{ etcd_pki_cert_dest | quote }}
-ETCD_KEY_FILE={{ etcd_pki_key_dest | quote }}
+ETCD_CERT_FILE="{{ etcd_pki_cert_dest }}"
+ETCD_KEY_FILE="{{ etcd_pki_key_dest }}"
 ETCD_CLIENT_CERT_AUTH="true"
-ETCD_TRUSTED_CA_FILE={{ etcd_pki_ca_cert_dest | quote }}
-ETCD_PEER_CERT_FILE={{ etcd_pki_cert_dest | quote }}
-ETCD_PEER_KEY_FILE={{ etcd_pki_key_dest | quote }}
+ETCD_TRUSTED_CA_FILE="{{ etcd_pki_ca_cert_dest }}"
+ETCD_PEER_CERT_FILE="{{ etcd_pki_cert_dest }}"
+ETCD_PEER_KEY_FILE="{{ etcd_pki_key_dest }}"
 ETCD_PEER_CLIENT_CERT_AUTH="true"
-ETCD_PEER_TRUSTED_CA_FILE={{ etcd_pki_ca_cert_dest | quote }}
+ETCD_PEER_TRUSTED_CA_FILE="{{ etcd_pki_ca_cert_dest }}"
 {% endif %}
 #
 #[logging]
-{% if etcd_config_debug is defined and etcd_config_debug | bool %}
-ETCD_DEBUG={{ etcd_config_debug | bool | quote }}
+{% if etcd_cluster_debug is defined and etcd_cluster_debug | bool %}
+ETCD_DEBUG="{{ etcd_cluster_debug | string | lower }}"
 {% endif %}
-{% if etcd_config_log_package_levels is defined %}
-ETCD_LOG_PACKAGE_LEVELS={{ etcd_config_log_package_levels | quote }}
+{% if etcd_cluster_log_package_levels is defined %}
+ETCD_LOG_PACKAGE_LEVELS="{{ etcd_cluster_log_package_levels }}"
 {% else %}
 # examples for -log-package-levels etcdserver=WARNING,security=DEBUG
 #ETCD_LOG_PACKAGE_LEVELS="etcdserver=DEBUG"
 {% endif %}
 #
 # [custom_env_vars]
-{% if etcd_additional_envvars is defined %}
-{% for k, v in etcd_additional_envvars.items() %}
-{{ k }}={{ v | quote }}
+{% if etcd_cluster_custom_env_vars is defined %}
+{% for k, v in etcd_cluster_custom_env_vars.items() %}
+{{ k }}="{{ v }}"
 {% endfor %}
 {% endif %}

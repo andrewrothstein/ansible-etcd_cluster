@@ -5,5 +5,16 @@
     etcd_use_ips: false
     etcd_pki_dir: '{{ playbook_dir }}/test-pki'
     etcd_launch: false
+    etcd_cluster_snapshot_counter: 100
+    etcd_cluster_heartbeat_interval: '5s'
+    etcd_cluster_election_timeout: '5m'
+    etcd_cluster_max_snapshots: 100
+    etcd_cluster_max_wals: 5
+    etcd_cluster_cors: foo-bar-no-idea-format
+    etcd_cluster_debug: true
+    etcd_cluster_log_package_levels: 'etcdserver=WARNING,security=DEBUG'
+    etcd_cluster_custom_env_vars:
+      foo: bar
+      baz: bing
   roles:
     - role: '{{ playbook_dir }}'

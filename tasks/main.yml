@@ -44,7 +44,7 @@
   ansible.builtin.include_tasks: pki.yml
   when: etcd_secure | bool
 
-- name: Install etcd.service configuration
+- name: Templating /etc/etcd/etcd.conf
   become: true
   become_user: root
   with_items:
