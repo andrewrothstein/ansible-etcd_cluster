@@ -30,4 +30,3 @@
   when: etcd_launch
   ansible.builtin.systemd:
     daemon_reload: true
-
