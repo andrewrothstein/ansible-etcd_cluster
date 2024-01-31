@@ -1,13 +1,13 @@
 # [member]
 ETCD_NAME="{{ ansible_fqdn if not etcd_use_ips | bool else inventory_hostname }}"
 ETCD_DATA_DIR={{ etcd_cluster_data_dir | quote }}
-{%- if etcd_cluster_snapshot_counter is defined %}
+{% if etcd_cluster_snapshot_counter is defined %}
 ETCD_SNAPSHOT_COUNTER={{ etcd_cluster_snapshot_counter | quote }}
 {%- endif %}
-{%- if etcd_cluster_heartbeat_interval is defined %}
+{% if etcd_cluster_heartbeat_interval is defined %}
 ETCD_HEARTBEAT_INTERVAL={{ etcd_cluster_heartbeat_interval | quote }}
 {%- endif %}
-{%- if etcd_cluster_election_timeout is defined %}
+{% if etcd_cluster_election_timeout is defined %}
 ETCD_ELECTION_TIMEOUT={{ etcd_cluster_election_timeout | quote }}
 {%- endif %}
 {% if etcd_iface_public == 'all' %}
@@ -17,19 +17,19 @@ ETCD_ELECTION_TIMEOUT={{ etcd_cluster_election_timeout | quote }}
 {% endif %}
 ETCD_LISTEN_CLIENT_URLS={{ client_endpoints | map('regex_replace', '^(.+)$', etcd_scheme ~ '\\1' ~ ':' ~ etcd_port_client) | join(',') | quote }}
 ETCD_ENABLE_V2={{ etcd_enable_v2 }}
-{%- if etcd_config_max_snapshots is defined %}
+{% if etcd_config_max_snapshots is defined %}
 ETCD_MAX_SNAPSHOTS={{ etcd_config_max_snapshots | quote }}
 {%- endif %}
-{%- if etcd_config_max_wals is defined %}
+{% if etcd_config_max_wals is defined %}
 ETCD_MAX_WALS={{ etcd_config_max_wals | quote }}
 {%- endif %}
-{%- if etcd_config_cors is defined %}
+{% if etcd_config_cors is defined %}
 ETCD_CORS={{ etcd_config_cors | quote }}
 {%- endif %}
 #
 #
 # [cluster]
-{%- if inventory_hostname in groups[etcd_master_group_name] %}
+{% if inventory_hostname in groups[etcd_master_group_name] %}
 ETCD_LISTEN_PEER_URLS="{{ etcd_scheme }}{{ etcd_listen_cluster }}:{{ etcd_port_peer }}"
 ETCD_ADVERTISE_CLIENT_URLS="{{ etcd_scheme }}{{ etcd_address_public }}:{{ etcd_port_client }}"
 ETCD_INITIAL_ADVERTISE_PEER_URLS="{{ etcd_scheme }}{{ etcd_address_cluster }}:{{ etcd_port_peer }}"
@@ -63,10 +63,10 @@ ETCD_PEER_TRUSTED_CA_FILE={{ etcd_pki_ca_cert_dest | quote }}
 {% endif %}
 #
 #[logging]
-{%- if etcd_config_debug is defined and etcd_config_debug | bool %}
+{% if etcd_config_debug is defined and etcd_config_debug | bool %}
 ETCD_DEBUG={{ etcd_config_debug | bool | quote }}
 {%- endif %}
-{%- if etcd_config_log_package_levels is defined %}
+{% if etcd_config_log_package_levels is defined %}
 ETCD_LOG_PACKAGE_LEVELS={{ etcd_config_log_package_levels | quote }}
 {%- else %}
 # examples for -log-package-levels etcdserver=WARNING,security=DEBUG
@@ -74,7 +74,7 @@ ETCD_LOG_PACKAGE_LEVELS={{ etcd_config_log_package_levels | quote }}
 {%- endif %}
 #
 # [custom_env_vars]
-{%- if etcd_additional_envvars is defined %}
+{% if etcd_additional_envvars is defined %}
 {% for k, v in etcd_additional_envvars %}
 {{ k }}={{ v | quote }}
 {% endfor %}
