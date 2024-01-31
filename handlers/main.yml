@@ -5,7 +5,8 @@
 - name: Restart etcd masters
   become: true
   become_user: root
-  when: etcd_launch | bool
+  when:
+    - etcd_launch | bool
   ansible.builtin.service:
     name: etcd
     state: restarted
@@ -27,6 +28,7 @@
 - name: Systemctl daemon-reload
   become: true
   become_user: root
-  when: etcd_launch
+  when:
+    - etcd_launch | bool
   ansible.builtin.systemd:
     daemon_reload: true
