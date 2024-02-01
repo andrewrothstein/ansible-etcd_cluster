@@ -3,9 +3,9 @@ Description=Etcd Server
 After=network.target
 
 [Service]
-{%- if etcd_service_start_timeout is defined %}
+{% if etcd_service_start_timeout is defined %}
 TimeoutStartSec={{ etcd_service_start_timeout }}
-{%- endif %}
+{% endif %}
 Type={{ etcd_systemd_service_type | default("notify") }}
 User={{ etcd_user }}
 WorkingDirectory={{ etcd_data_dir }}/
