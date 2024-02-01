@@ -26,7 +26,10 @@ etcd_launch: true
 # Accept etcd V2 client requests
 etcd_enable_v2: true
 
-etcd_additional_envvars: {}
+# Additional environment vars for the service
+# etcd_additional_envvars:
+#   foo: bar
+#   baz: ding
 
 # systemd Service.TimeoutStartSec
 # etcd_service_start_timeout: '5min'

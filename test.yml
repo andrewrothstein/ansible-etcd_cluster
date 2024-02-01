@@ -13,7 +13,7 @@
     etcd_cluster_cors: foo-bar-no-idea-format
     etcd_cluster_debug: true
     etcd_cluster_log_package_levels: 'etcdserver=WARNING,security=DEBUG'
-    etcd_cluster_custom_env_vars:
+    etcd_additional_envvars:
       foo: bar
       baz: bing
   roles:
