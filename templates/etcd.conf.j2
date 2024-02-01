@@ -74,8 +74,8 @@ ETCD_LOG_PACKAGE_LEVELS="{{ etcd_cluster_log_package_levels }}"
 {% endif %}
 #
 # [custom_env_vars]
-{% if etcd_cluster_custom_env_vars is defined %}
-{% for k, v in etcd_cluster_custom_env_vars.items() %}
+{% if etcd_additional_envvars is defined %}
+{% for k, v in etcd_additional_envvars.items() %}
 {{ k }}="{{ v }}"
 {% endfor %}
 {% endif %}
