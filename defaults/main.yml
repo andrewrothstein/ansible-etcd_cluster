@@ -7,6 +7,8 @@ etcd_data_dir: /var/lib/etcd
 etcd_master_group_name: etcd_master
 
 etcd_secure: true
+etcd_client_cert_auth: true
+etcd_peer_client_cert_auth: true
 etcd_pki_dir: ~/pki-dir
 etcd_pki_key_suffix: -key.pem
 etcd_pki_cert_suffix: .pem
